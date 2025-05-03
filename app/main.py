@@ -1,12 +1,10 @@
-import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import RedirectResponse
 
-import base62
-from hash_url import hash_url
-from db import get_collection
-from models import URLRequest, URLResponse, URLEntry
-from config import FASTAPI_PORT, RELOAD_ON_CHANGE
+import app.base62 as base62
+from .hash_url import hash_url
+from .db import get_collection
+from .models import URLRequest, URLResponse, URLEntry
 
 
 collection = get_collection()
@@ -50,6 +48,3 @@ def build_shortened_url(encoded_url: str, req: Request):
     base_url = str(req.base_url)
     return f'{base_url}{encoded_url}'
 
-
-if __name__ == '__main__':
-    uvicorn.run('main:app', host='127.0.0.1', port=FASTAPI_PORT, reload=RELOAD_ON_CHANGE)

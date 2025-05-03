@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from config import (
+from .config import (
     MONGO_URI,
     MONGO_USERNAME,
     MONGO_PASSWORD,
