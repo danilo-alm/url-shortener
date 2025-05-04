@@ -1,0 +1,31 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi-backend
+    ports:
+      - "1234:8000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_COLLECTION=${MONGO_COLLECTION}
+
+      - API_HOST=0.0.0.0
+      - API_PORT=${API_PORT}
+      - RELOAD_ON_CHANGE=false
+    depends_on:
+      - mongodb
+    restart: always
+
+  mongodb:
+    image: mongo:8
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - ./db:/data/db
+    restart: always
