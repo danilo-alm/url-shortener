@@ -1,6 +1,6 @@
 # URL Shortener
 
-A simple URL shortener built with FastAPI and MongoDB. This project provides a RESTful API and a static HTML page that lets users shorten long URLs. When someone accesses a shortened URL, they are automatically redirected to the original long URL, making link sharing cleaner and more convenient.
+A simple URL shortener built with FastAPI and MongoDB.
 
 ![alt text](docs/_media/preview.png)
 
