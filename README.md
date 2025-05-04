@@ -1,6 +1,8 @@
 # URL Shortener
 
-A simple URL shortener built with **FastAPI** and **MongoDB**. This project provides a RESTful API to create and retrieve shortened URLs, allowing users to map long URLs to shorter ones for easier sharing.
+A simple URL shortener built with FastAPI and MongoDB. This project provides a RESTful API and a static HTML page that lets users shorten long URLs. When someone accesses a shortened URL, they are automatically redirected to the original long URL, making link sharing cleaner and more convenient.
+
+![alt text](docs/_media/preview.png)
 
 ## Prerequisites
 
@@ -48,7 +50,7 @@ You can run this project either in **Docker** (recommended) or **locally**.
    docker-compose up --build
    ```
 
-3. The application will be available at `http://localhost:1234` (or the port specified in your `.env`).
+3. The frontend will be available at `http://localhost:1234` (or the port specified in your `.env`).
 
 ### Local Setup (Without Docker)
 
@@ -73,44 +75,4 @@ I won't go into that. [Read the MongoDB Docs](https://www.mongodb.com/docs/manua
    uv run -- python -m app.run
    ```
 
-5. The application will be available at `http://localhost:8000` (or the port specified in your `.env`).
-
-## API Endpoints
-
-### POST /shorten
-
-Shorten a long URL.
-
-#### Request Body:
-
-```json
-{
-  "long_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-}
-```
-
-#### Response:
-
-```json
-{
-  "short_url": "http://localhost:1234/aYZYYQLV"
-}
-```
-
-### GET /{short\_url}
-
-Retrieve the original long URL from a shortened URL. The user will be automatically redirected to the original URL.
-
-#### Request:
-
-```bash
-GET http://localhost:1234/aYZYYQLV
-```
-
-#### Response:
-
-The request will result in an HTTP redirect (status code 308) to the original long URL, e.g.,:
-   ```html
-   HTTP/1.1 308 Permanent Redirect
-   Location: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-   ```
+5. The frontend will be available at `http://localhost:8000` (or the port specified in your `.env`).
