@@ -10,8 +10,8 @@ Before running this application, ensure you have the following installed:
 
 If you want to run locally:
 
-* Python 3.13 (for local development)
-* MongoDB (for local or Docker environment)
+* Python 3.13
+* MongoDB
 
 ## Environment Variables
 
@@ -85,7 +85,7 @@ Shorten a long URL.
 
 ```json
 {
-  "long_url": "https://www.example.com"
+  "long_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 }
 ```
 
@@ -93,7 +93,7 @@ Shorten a long URL.
 
 ```json
 {
-  "short_url": "http://localhost:8000/abc123"
+  "short_url": "http://localhost:1234/aYZYYQLV"
 }
 ```
 
@@ -104,7 +104,7 @@ Retrieve the original long URL from a shortened URL. The user will be automatica
 #### Request:
 
 ```bash
-GET http://localhost:8000/abc123
+GET http://localhost:1234/aYZYYQLV
 ```
 
 #### Response:
@@ -112,5 +112,5 @@ GET http://localhost:8000/abc123
 The request will result in an HTTP redirect (status code 308) to the original long URL, e.g.,:
    ```html
    HTTP/1.1 308 Permanent Redirect
-   Location: https://www.example.com
+   Location: https://www.youtube.com/watch?v=dQw4w9WgXcQ
    ```
