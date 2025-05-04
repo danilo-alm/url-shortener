@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>URL Shortener</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f8f9fa;
+    }
+    .container {
+      text-align: center;
+      width: 80%;
+      max-width: 600px;
+      transform: translateY(-40%);
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-left: 0.5rem;
+    }
+    #result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>URL Shortener</h1>
+    <input id="urlInput" type="text" placeholder="Enter a long URL..." />
+    <button onclick="shortenUrl()">Shorten</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    async function shortenUrl() {
+      const longUrl = document.getElementById('urlInput').value;
+      const response = await fetch('/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: longUrl })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const shortUrl = data.url;
+        document.getElementById('result').innerHTML = `Shortened URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+      } else {
+        document.getElementById('result').textContent = 'Error shortening URL.';
+      }
+    }
+  </script>
+</body>
+</html>

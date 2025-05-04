@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 
 import app.base62 as base62
 from .hash_url import hash_url
@@ -9,6 +9,11 @@ from .models import URLRequest, URLResponse, URLEntry
 
 collection = get_collection()
 app = FastAPI()
+
+
+@app.get('/')
+def serve_index():
+    return FileResponse('static/index.html')
 
 
 @app.post('/shorten')
