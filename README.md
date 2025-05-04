@@ -52,24 +52,28 @@ You can run this project either in **Docker** (recommended) or **locally**.
 
 ### Local Setup (Without Docker)
 
-1. Clone the repository:
+1. Install and start MongoDB
+
+I won't go into that. [Read the MongoDB Docs](https://www.mongodb.com/docs/manual/installation/)
+
+2. Clone the repository:
 
    ```bash
    git clone https://github.com/yourusername/url-shortener.git
    cd url-shortener
    ```
 
-2. Install `uv`
+3. Install `uv`
    ```bash
    python -m pip install uv
    ```
 
-3. Install dependencies and run
+4. Install dependencies and run
    ```bash
    uv run -- python -m app.run
    ```
 
-4. The application will be available at `http://localhost:8000` (or the port specified in your `.env`).
+5. The application will be available at `http://localhost:8000` (or the port specified in your `.env`).
 
 ## API Endpoints
 
