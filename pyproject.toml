@@ -7,4 +7,5 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.115.12",
     "pymongo[srv]>=4.12.1",
+    "redis>=6.0.0",
 ]

@@ -4,7 +4,9 @@ from fastapi.responses import RedirectResponse, FileResponse
 import app.base62 as base62
 from .hash_url import hash_url
 from .db import get_collection
+from .cache import r
 from .models import URLRequest, URLResponse, URLEntry
+from .config import REDIS_EXPIRATION_SECONDS
 
 
 collection = get_collection()
@@ -34,6 +36,7 @@ def shorten_url(url_request: URLRequest, req: Request):
 
     doc = url_entry.model_dump(mode='json', by_alias=True)
     collection.insert_one(doc)
+    r.setex(encoded_url, REDIS_EXPIRATION_SECONDS, long_url)
 
     short_url = build_shortened_url(encoded_url, req)
     return URLResponse(url=short_url)
@@ -41,9 +44,14 @@ def shorten_url(url_request: URLRequest, req: Request):
 
 @app.get('/{encoded}')
 def redirect_url(encoded: str):
+    cached = r.getex(encoded, ex=REDIS_EXPIRATION_SECONDS)
+    if cached:
+        return RedirectResponse(url=cached, status_code=308)
+    
     url_entry = collection.find_one({'_id': encoded}, {'original_url': 1})
     if url_entry:
         original_url = url_entry['original_url']
+        r.setex(encoded, REDIS_EXPIRATION_SECONDS, original_url)
         return RedirectResponse(url=original_url, status_code=308)
     else:
         return HTTPException(status_code=404, detail=f'Invalid URL')
@@ -52,4 +60,3 @@ def redirect_url(encoded: str):
 def build_shortened_url(encoded_url: str, req: Request):
     base_url = str(req.base_url)
     return f'{base_url}{encoded_url}'
-
