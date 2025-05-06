@@ -53,8 +53,8 @@ def redirect_url(encoded: str):
         original_url = url_entry['original_url']
         r.setex(encoded, REDIS_EXPIRATION_SECONDS, original_url)
         return RedirectResponse(url=original_url, status_code=308)
-    else:
-        return HTTPException(status_code=404, detail=f'Invalid URL')
+
+    raise HTTPException(status_code=404, detail=f'Invalid URL')
 
 
 def build_shortened_url(encoded_url: str, req: Request):
