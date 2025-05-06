@@ -26,6 +26,7 @@ def shorten_url(url_request: URLRequest, req: Request):
 
     exists = collection.find_one({'_id': encoded_url})
     if exists:
+        r.setex(encoded_url, REDIS_EXPIRATION_SECONDS, long_url)
         short_url = build_shortened_url(encoded_url, req)
         return URLResponse(url=short_url)
     
