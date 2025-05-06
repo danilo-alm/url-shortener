@@ -17,7 +17,7 @@ If you want to run locally:
 
 ## Environment Variables
 
-This project relies on environment variables that you can configure in a `.env` file. You can also just go with the defaults.
+This project relies on environment variables that you can configure in a .env file. A .env.example file is provided with all available variables and their default values — you can copy it using cp .env.example .env. Alternatively, you can skip this step and rely on the built-in defaults.
 
 ### 🔗 MongoDB Configuration
 
