@@ -14,6 +14,7 @@ If you want to run locally:
 
 * Python 3.13
 * MongoDB
+* Redis
 
 ## Environment Variables
 
