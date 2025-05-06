@@ -78,7 +78,7 @@ You can run this project either in **Docker** (recommended) or **locally**.
 
 [Read the MongoDB Docs](https://www.mongodb.com/docs/manual/installation/)
 
-2. Install and start redis
+2. Install and start Redis
 
 [Read the Redis Docs](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/)
 
