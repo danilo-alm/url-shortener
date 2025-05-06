@@ -22,32 +22,33 @@ This project relies on environment variables that you can configure in a `.env` 
 
 ### 🔗 MongoDB Configuration
 
-* `MONGO_URI`: URI para conexão com o MongoDB
-  (ex: `mongodb://localhost:27017/` para uso local ou `mongodb://mongodb:27017/` no Docker).
-* `MONGO_USERNAME`: Nome de usuário do MongoDB (padrão: `admin`).
-* `MONGO_PASSWORD`: Senha do MongoDB (padrão: `secret`).
-* `MONGO_DATABASE`: Nome do banco de dados (padrão: `url_shortener`).
-* `MONGO_COLLECTION`: Nome da coleção (padrão: `urls`).
+* `MONGO_URI`: URI for connecting to MongoDB
+  (e.g., `mongodb://localhost:27017/` for local use or `mongodb://mongodb:27017/` in Docker).
+* `MONGO_USERNAME`: MongoDB username (default: `admin`).
+* `MONGO_PASSWORD`: MongoDB password (default: `secret`).
+* `MONGO_DATABASE`: Name of the MongoDB database (default: `url_shortener`).
+* `MONGO_COLLECTION`: Name of the MongoDB collection (default: `urls`).
 
 ---
 
 ### 🚀 FastAPI Application
 
-* `API_HOST`: Host da aplicação FastAPI
-  (padrão: `127.0.0.1` localmente, `0.0.0.0` no Docker).
-* `API_PORT`: Porta interna da aplicação FastAPI (padrão: `8000`).
-* `API_PORT_MAP`: Mapeamento externo de porta para acesso via Docker (padrão: `1234`).
-* `RELOAD_ON_CHANGE`: Ativa recarregamento automático ao mudar o código
-  (padrão: `true` localmente, `false` no Docker).
+* `API_HOST`: Host for the FastAPI application
+  (default: `127.0.0.1` locally, `0.0.0.0` in Docker).
+* `API_PORT`: Internal port for the FastAPI server (default: `8000`).
+* `API_PORT_MAP`: External port mapping when running with Docker (default: `1234`).
+* `RELOAD_ON_CHANGE`: Enables auto-reload on code changes
+  (default: `true` locally, `false` in Docker).
 
 ---
 
 ### 🧠 Redis Cache
 
-* `REDIS_HOST`: Host do Redis (padrão: `127.0.0.1`).
-* `REDIS_PORT`: Porta do Redis (padrão: `6379`).
-* `REDIS_DB`: Banco de dados Redis (padrão: `0`).
-* `REDIS_EXPIRATION_SECONDS`: Tempo de expiração das entradas no cache (padrão: `7200` segundos ou 2 horas).
+* `REDIS_HOST`: Redis host (default: `127.0.0.1`).
+* `REDIS_PORT`: Redis port (default: `6379`).
+* `REDIS_DB`: Redis database index (default: `0`).
+* `REDIS_EXPIRATION_SECONDS`: Time-to-live for cached entries in seconds
+  (default: `7200` seconds or 2 hours).
 
 
 ## Setup
