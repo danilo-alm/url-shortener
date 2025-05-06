@@ -56,8 +56,8 @@
 
       if (response.ok) {
         const data = await response.json();
-        const shortUrl = data.url;
-        document.getElementById('result').innerHTML = `Shortened URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+        const encodedUrl = data.encodedUrl;
+        document.getElementById('result').innerHTML = `Shortened URL: <a href="${window.location.origin}/${encodedUrl}" target="_blank">${window.location.origin}/${encodedUrl}</a>`;
       } else {
         document.getElementById('result').textContent = 'Error shortening URL.';
       }

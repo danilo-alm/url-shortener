@@ -5,7 +5,7 @@ import app.base62 as base62
 from .hash_url import hash_url
 from .db import get_collection
 from .cache import r
-from .models import URLRequest, URLResponse, URLEntry
+from .models import URLRequest, EncodedURLResponse, URLEntry
 from .config import REDIS_EXPIRATION_SECONDS
 
 
@@ -19,45 +19,29 @@ def serve_index():
 
 
 @app.post('/shorten')
-def shorten_url(url_request: URLRequest, req: Request):
-    long_url = str(url_request.url)
-    hashed_url = hash_url(long_url)
-    encoded_url = base62.encode(hashed_url)
+def shorten_url(url_request: URLRequest):
+    original_url = str(url_request.url)
+    url_hash = hash_url(original_url)
+    encoded_id = base62.encode(url_hash)
 
-    exists = collection.find_one({'_id': encoded_url})
-    if exists:
-        r.setex(encoded_url, REDIS_EXPIRATION_SECONDS, long_url)
-        short_url = build_shortened_url(encoded_url, req)
-        return URLResponse(url=short_url)
-    
-    url_entry = URLEntry(
-        _id=encoded_url,
-        original_url=long_url
-    )
+    is_new = not collection.find_one({'_id': encoded_id})
+    if is_new:
+        url_entry = URLEntry(_id=encoded_id, original_url=original_url)
+        collection.insert_one(url_entry.model_dump(mode='json', by_alias=True))
 
-    doc = url_entry.model_dump(mode='json', by_alias=True)
-    collection.insert_one(doc)
-    r.setex(encoded_url, REDIS_EXPIRATION_SECONDS, long_url)
-
-    short_url = build_shortened_url(encoded_url, req)
-    return URLResponse(url=short_url)
+    r.setex(encoded_id, REDIS_EXPIRATION_SECONDS, original_url)
+    return EncodedURLResponse(encodedUrl=encoded_id)
 
 
 @app.get('/{encoded}')
 def redirect_url(encoded: str):
-    cached = r.getex(encoded, ex=REDIS_EXPIRATION_SECONDS)
-    if cached:
-        return RedirectResponse(url=cached, status_code=308)
+    original_url = r.getex(encoded, ex=REDIS_EXPIRATION_SECONDS)
     
-    url_entry = collection.find_one({'_id': encoded}, {'original_url': 1})
-    if url_entry:
-        original_url = url_entry['original_url']
+    if not original_url:
+        doc = collection.find_one({'_id': encoded}, {'original_url': 1})
+        if not doc:
+            raise HTTPException(status_code=404, detail='Invalid URL')
+        original_url = doc['original_url']
         r.setex(encoded, REDIS_EXPIRATION_SECONDS, original_url)
-        return RedirectResponse(url=original_url, status_code=308)
 
-    raise HTTPException(status_code=404, detail=f'Invalid URL')
-
-
-def build_shortened_url(encoded_url: str, req: Request):
-    base_url = str(req.base_url)
-    return f'{base_url}{encoded_url}'
+    return RedirectResponse(url=original_url, status_code=308)
