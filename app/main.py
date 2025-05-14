@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse, FileResponse
+from pydantic import HttpUrl
 
 import app.base62 as base62
 from .hash_url import hash_url
@@ -26,7 +27,7 @@ def shorten_url(url_request: URLRequest):
 
     is_new = not collection.find_one({'_id': encoded_id})
     if is_new:
-        url_entry = URLEntry(_id=encoded_id, original_url=original_url)
+        url_entry = URLEntry(_id=encoded_id, original_url=HttpUrl(original_url))
         collection.insert_one(url_entry.model_dump(mode='json', by_alias=True))
 
     r.setex(encoded_id, REDIS_EXPIRATION_SECONDS, original_url)
